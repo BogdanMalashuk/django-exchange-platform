@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #004080;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0066cc;
+        }
+
+        .errorlist {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <h2>Login</h2>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <label for="id_username">Username</label>
+        {{ form.username }}
+
+        <label for="id_password">Password</label>
+        {{ form.password }}
+
+        <button type="submit">Login</button>
+
+        <div class="register-link">
+            <p>No account? <a href="{% url 'register' %}">Register</a></p>
+        </div>
+    </form>
+</body>
+</html>
