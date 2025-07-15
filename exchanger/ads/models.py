@@ -3,6 +3,17 @@ from django.contrib.auth.models import User
 
 
 class Ad(models.Model):
+    CATEGORY_CHOICES = [
+        ('electronics', 'Электроника'),
+        ('clothing', 'Одежда'),
+        ('accessories', 'Аксессуары'),
+        ('kids', 'Товары для детей'),
+        ('sports', 'Спорт'),
+        ('books', 'Книги'),
+        ('furniture', 'Мебель'),
+        ('appliances', 'Бытовая техника'),
+    ]
+
     CONDITION_CHOICES = [
         ('new', 'Новый'),
         ('used', 'Б/у'),
@@ -12,12 +23,13 @@ class Ad(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     image_url = models.URLField(blank=True, null=True)
-    category = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
 
 
 class ExchangeProposal(models.Model):
