@@ -56,7 +56,8 @@ ROOT_URLCONF = 'exchanger.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -76,9 +77,9 @@ WSGI_APPLICATION = 'exchanger.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'exchanger_db',
-        'USER': 'bogdan',
-        'PASSWORD': 'bogdan',
+        'NAME': 'some_dbname',
+        'USER': 'some_username',
+        'PASSWORD': 'some_password',
         'HOST': 'localhost',
         'PORT': '5432',
     }

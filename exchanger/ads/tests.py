@@ -11,7 +11,6 @@ class AdModelTest(TestCase):
             user=self.user,
             title='Телефон',
             description='Почти новый',
-            image_url='http://example.com/image.jpg',
             category='Электроника',
             condition='б/у',
         )
@@ -67,14 +66,12 @@ class AdViewsTest(TestCase):
             description='desc',
             category='sport',
             condition='used',
-            image_url='http://example.com/img.jpg',
         )
         response = self.client.post(reverse('ad_edit', args=[ad.id]), {
             'title': 'Новое название',
             'description': ad.description,
             'category': ad.category,
             'condition': ad.condition,
-            'image_url': ad.image_url,
         })
         ad.refresh_from_db()
         self.assertEqual(ad.title, 'Новое название')
@@ -97,7 +94,6 @@ class ExchangeProposalViewsTest(TestCase):
 
     def test_create_proposal(self):
         self.client.login(username='sender', password='pass')
-        # Здесь передаём аргумент ad_id в reverse
         url = reverse('propose_exchange', args=[self.ad_receiver.id])
         response = self.client.post(url, {
             'ad_sender': self.ad_sender.id,
