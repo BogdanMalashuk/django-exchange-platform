@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Входящие заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #004080;
+        }
+
+        .proposal-card {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1em;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .proposal-card p {
+            margin: 6px 0;
+        }
+
+        .proposal-card .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .proposal-card .status.pending {
+            color: #f0ad4e;
+        }
+
+        .proposal-card .status.accepted {
+            color: #5cb85c;
+        }
+
+        .proposal-card .status.rejected {
+            color: #d9534f;
+        }
+
+        .btn-accept {
+            background-color: #5cb85c;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background-color: #d9534f;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-accept:hover {
+            background-color: #4cae4c;
+        }
+
+        .btn-reject:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <h2>Входящие заявки</h2>
+
+    {% if proposals %}
+        {% for proposal in proposals %}
+            <div class="proposal-card">
+                <p><strong>Предложено пользователем:</strong> {{ proposal.ad_sender.user.username }}</p>
+                <p><strong>На ваш товар:</strong> "{{ proposal.ad_receiver.title }}"</p>
+                <p><strong>Он предлагает:</strong> "{{ proposal.ad_sender.title }}"</p>
+                <p><strong>Комментарий:</strong> {{ proposal.comment }}</p>
+                <p class="status {{ proposal.status }}"><strong>Статус:</strong> {{ proposal.get_status_display }}</p>
+                <p><small>Отправлено: {{ proposal.created_at }}</small></p>
+
+                {% if proposal.status == 'pending' %}
+                    <form method="post" action="{% url 'accept_proposal' proposal.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-accept">Принять</button>
+                    </form>
+                    <form method="post" action="{% url 'reject_proposal' proposal.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-reject">Отклонить</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Входящих заявок пока нет.</p>
+    {% endif %}
+</body>
+</html>
