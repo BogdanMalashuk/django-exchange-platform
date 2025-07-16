@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ ad.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-left,
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: white;
+            background-color: #004080;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav a:hover {
+            background-color: #0066cc;
+        }
+
+        h1 {
+            color: #004080;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        strong {
+            color: #444;
+        }
+
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="nav-left">
+            <a href="/">← Назад</a>
+        </div>
+        {% if user == ad.user %}
+        <div class="nav-right">
+            <a href="{% url 'ad_edit' ad.id %}">✎ Редактировать</a>
+            <a href="{% url 'ad_delete' ad.id %}">🗑 Удалить</a>
+        </div>
+        {% endif %}
+        {% if user.is_authenticated and ad.user != user %}
+            <a href="{% url 'propose_exchange' ad.id %}" class="edit-btn">Предложить обмен</a>
+        {% endif %}
+    </div>
+
+    <h1>{{ ad.title }}</h1>
+
+    <p><strong>Категория:</strong> {{ ad.get_category_display }}</p>
+    <p><strong>Состояние:</strong> {{ ad.get_condition_display }}</p>
+    <p><strong>Описание:</strong> {{ ad.description }}</p>
+
+    {% if ad.image_url %}
+        <img src="{{ ad.image_url }}" alt="{{ ad.title }}">
+    {% endif %}
+
+</body>
+</html>
