@@ -30,7 +30,7 @@
             gap: 10px;
         }
 
-        .nav a {
+        .btn-link {
             text-decoration: none;
             color: white;
             background-color: #004080;
@@ -38,9 +38,12 @@
             border-radius: 6px;
             font-size: 0.9em;
             transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
         }
 
-        .nav a:hover {
+        .btn-link:hover {
             background-color: #0066cc;
         }
 
@@ -70,16 +73,19 @@
 
     <div class="nav">
         <div class="nav-left">
-            <a href="/">← Назад</a>
+            <a href="/" class="btn-link">← Назад</a>
         </div>
         {% if user == ad.user %}
         <div class="nav-right">
-            <a href="{% url 'ad_edit' ad.id %}">✎ Редактировать</a>
-            <a href="{% url 'ad_delete' ad.id %}">🗑 Удалить</a>
+            <a href="{% url 'ad_edit' ad.id %}" class="btn-link">✎ Редактировать</a>
+            <form action="{% url 'ad_delete' ad.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-link" onclick="return confirm('Вы уверены, что хотите удалить это объявление?');">🗑 Удалить</button>
+            </form>
         </div>
         {% endif %}
         {% if user.is_authenticated and ad.user != user %}
-            <a href="{% url 'propose_exchange' ad.id %}" class="edit-btn">Предложить обмен</a>
+            <a href="{% url 'propose_exchange' ad.id %}" class="btn-link">Предложить обмен</a>
         {% endif %}
     </div>
 
