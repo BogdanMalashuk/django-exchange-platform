@@ -9,11 +9,32 @@
             background-color: #f1f1f1;
             padding: 20px;
         }
-
         h2 {
             color: #004080;
         }
-
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            background-color: #004080;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .nav a:hover {
+            background-color: #0066cc;
+        }
+        .filter-form {
+            margin-bottom: 20px;
+        }
+        .filter-form input, .filter-form select {
+            padding: 6px;
+            margin-right: 10px;
+            font-size: 14px;
+        }
         .proposal-card {
             background: #fff;
             border: 1px solid #ccc;
@@ -22,28 +43,22 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
-
         .proposal-card p {
             margin: 6px 0;
         }
-
         .proposal-card .status {
             margin-top: 10px;
             font-weight: bold;
         }
-
         .proposal-card .status.pending {
             color: #f0ad4e;
         }
-
         .proposal-card .status.accepted {
             color: #5cb85c;
         }
-
         .proposal-card .status.rejected {
             color: #d9534f;
         }
-
         .btn-accept {
             background-color: #5cb85c;
             color: white;
@@ -53,7 +68,6 @@
             margin-right: 8px;
             cursor: pointer;
         }
-
         .btn-reject {
             background-color: #d9534f;
             color: white;
@@ -62,18 +76,25 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
-        .btn-accept:hover {
-            background-color: #4cae4c;
-        }
-
-        .btn-reject:hover {
-            background-color: #c9302c;
-        }
     </style>
 </head>
 <body>
+    <div class="nav">
+        <a href="{% url 'ad_list' %}">← На главную</a>
+    </div>
+
     <h2>Входящие заявки</h2>
+
+    <form method="get" class="filter-form">
+        <input type="text" name="sender" placeholder="Имя отправителя" value="{{ request.GET.sender }}">
+        <select name="status">
+            <option value="">Все статусы</option>
+            <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>В ожидании</option>
+            <option value="accepted" {% if request.GET.status == 'accepted' %}selected{% endif %}>Принятые</option>
+            <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Отклонённые</option>
+        </select>
+        <button type="submit">Фильтровать</button>
+    </form>
 
     {% if proposals %}
         {% for proposal in proposals %}
