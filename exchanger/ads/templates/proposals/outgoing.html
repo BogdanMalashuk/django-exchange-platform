@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Исходящие заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #004080;
+        }
+
+        .proposal-card {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1em;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .proposal-card p {
+            margin: 6px 0;
+        }
+
+        .proposal-card .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .proposal-card .status.pending {
+            color: #f0ad4e;
+        }
+
+        .proposal-card .status.accepted {
+            color: #5cb85c;
+        }
+
+        .proposal-card .status.rejected {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <h2>Исходящие заявки</h2>
+
+    {% if proposals %}
+        {% for proposal in proposals %}
+            <div class="proposal-card">
+                <p><strong>Вы предложили пользователю:</strong> {{ proposal.ad_receiver.user.username }}</p>
+                <p><strong>На товар:</strong> "{{ proposal.ad_receiver.title }}"</p>
+                <p><strong>Вы предлагаете:</strong> "{{ proposal.ad_sender.title }}"</p>
+                <p><strong>Комментарий:</strong> {{ proposal.comment }}</p>
+                <p class="status {{ proposal.status }}"><strong>Статус:</strong> {{ proposal.get_status_display }}</p>
+                <p><small>Отправлено: {{ proposal.created_at }}</small></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Исходящих заявок пока нет.</p>
+    {% endif %}
+</body>
+</html>
