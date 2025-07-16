@@ -8,7 +8,7 @@ class Ad(models.Model):
         ('clothing', 'Одежда'),
         ('accessories', 'Аксессуары'),
         ('kids', 'Товары для детей'),
-        ('sports', 'Спорт'),
+        ('sport', 'Спорт'),
         ('books', 'Книги'),
         ('furniture', 'Мебель'),
         ('appliances', 'Бытовая техника'),
@@ -22,14 +22,15 @@ class Ad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    image_url = models.URLField(blank=True, null=True)
+    image_url = models.URLField(blank=True,
+                                null=True,
+                                default="https://www.svgrepo.com/show/508699/landscape-placeholder.svg")
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-
 
 
 class ExchangeProposal(models.Model):
